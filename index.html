@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026년 정기 행사 (MT)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { interpolate-size: allow-keywords; }
+
+    html.theme-dark {
+      --bg: #0A0A0A; --surface: #141414; --surface-hover: #1C1C1C;
+      --border: rgba(255,255,255,0.04);
+      --text: #EDEDED; --text-secondary: #888;
+      --accent: #3b82f6; --accent-secondary: #8b5cf6;
+      --positive: #10b981; --negative: #f43f5e; --warning: #f59e0b;
+    }
+    html.theme-light {
+      --bg: #FAFAF9; --surface: #FFFFFF; --surface-hover: #F5F5F4;
+      --border: rgba(0,0,0,0.06);
+      --text: #0f172a; --text-secondary: #64748b;
+      --accent: #2563eb; --accent-secondary: #7c3aed;
+      --positive: #059669; --negative: #e11d48; --warning: #d97706;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.7; -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em; font-feature-settings: 'cv11', 'ss01';
+      transition: background 0.3s, color 0.3s;
+      scrollbar-gutter: stable;
+    }
+    h1,h2,h3,h4,h5,h6 {
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      text-wrap: balance;
+    }
+    h1 { font-weight: 800; }
+    h2 { font-weight: 700; }
+    h3 { font-weight: 600; }
+    body, p, li, td, th, span, label { font-weight: 400; }
+    p,li,td,th,span,label { color: var(--text); }
+    .text-secondary { color: var(--text-secondary); }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: 0 0 0 1px var(--border), 0 12px 24px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+    .animate { animation: fadeInUp 0.6s ease-out both; }
+    .animate.delay-1 { animation-delay: 0.1s; }
+    .animate.delay-2 { animation-delay: 0.2s; }
+    .animate.delay-3 { animation-delay: 0.3s; }
+    .animate.delay-4 { animation-delay: 0.4s; }
+    .animate.delay-5 { animation-delay: 0.5s; }
+    .animate.delay-6 { animation-delay: 0.6s; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    @media print {
+      body { background: white !important; color: black !important; }
+      .viz-menu, .filter-bar { display: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .card { break-inside: avoid; border: 1px solid #ddd; box-shadow: none; }
+      .person[hidden] { display: flex !important; }
+      * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
+    @page { margin: 1in; @bottom-center { content: "Page " counter(page); font-size: 9pt; color: #666; } }
+
+    .viz-menu { position: fixed; top: 16px; right: 16px; z-index: 9999; }
+    .viz-menu-toggle {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(12px); transition: all 0.2s;
+    }
+    .viz-menu-toggle:hover { background: var(--surface-hover); }
+    .viz-menu-dropdown {
+      position: absolute; top: 52px; right: 0; min-width: 200px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 8px;
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: all 0.2s; backdrop-filter: blur(16px);
+    }
+    .viz-menu-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .viz-menu-dropdown button {
+      width: 100%; padding: 10px 14px; border: none; border-radius: 8px;
+      background: transparent; color: var(--text); font-size: 14px;
+      font-family: inherit; cursor: pointer; text-align: left;
+      display: flex; align-items: center; gap: 10px; transition: background 0.15s;
+    }
+    .viz-menu-dropdown button:hover { background: var(--surface-hover); }
+
+    .skip-to-content {
+      position: absolute; top: -40px; left: 6px; background: var(--accent);
+      color: white; padding: 8px 12px; text-decoration: none;
+      border-radius: 4px; opacity: 0; pointer-events: none;
+      transition: all 0.2s; z-index: 10000;
+    }
+    .skip-to-content:focus { top: 6px; opacity: 1; pointer-events: auto; }
+
+    details { overflow: hidden; }
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+    ::details-content {
+      transition: block-size 0.3s ease, opacity 0.3s ease;
+      block-size: 0; opacity: 0; overflow: hidden;
+    }
+    details[open]::details-content { block-size: auto; opacity: 1; }
+
+    [popover] {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px; max-width: 320px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2); color: var(--text);
+    }
+    [popover]::backdrop { background: rgba(0,0,0,0.3); }
+
+    /* ===== PAGE STYLES ===== */
+    .container { max-width: 980px; margin: 0 auto; padding: 96px 24px 64px; }
+    @media (max-width: 768px) { .container { padding: 88px 16px 48px; } }
+    @media (max-width: 375px) { body { overflow-x: hidden; } }
+
+    .hero { text-align: center; margin-bottom: 56px; }
+    .dday-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 8px 18px; border-radius: 999px; font-size: 14px;
+      font-weight: 600; color: var(--accent); margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 3.4rem); margin-bottom: 12px; }
+    .hero p.subtitle { font-size: 1.15rem; color: var(--text-secondary); }
+
+    section { margin-bottom: 56px; }
+    .section-label {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .section-title { font-size: 1.8rem; margin-bottom: 24px; }
+
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .info-card { display: flex; flex-direction: column; gap: 10px; }
+    .info-card .icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--surface-hover); display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .info-card .label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .info-card .value { font-size: 1.05rem; font-weight: 600; }
+    .info-card .sub { font-size: 13px; color: var(--text-secondary); }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 20px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-card .num { font-size: 2.2rem; font-weight: 800; color: var(--text); }
+    .stat-card .num.accent { color: var(--accent); }
+    .stat-card .lbl { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .filter-btn {
+      padding: 9px 18px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-secondary); font-size: 14px;
+      font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit;
+    }
+    .filter-btn:hover { background: var(--surface-hover); color: var(--text); }
+    .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    .person-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .person {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .person:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+    .person .avatar {
+      width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .person[data-status="attend"] .avatar { background: rgba(16,185,129,0.15); color: var(--positive); }
+    .person[data-status="day"] .avatar { background: rgba(59,130,246,0.15); color: var(--accent); }
+    .person[data-status="visit"] .avatar { background: rgba(245,158,11,0.15); color: var(--warning); }
+    .person[data-status="absent"] .avatar { background: rgba(244,63,94,0.12); color: var(--negative); }
+    .person .name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 6px; }
+    .person .status-tag { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+    .family-tag {
+      font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px;
+      background: var(--surface-hover); color: var(--accent-secondary); border: 1px solid var(--border);
+    }
+
+    .map-card { display: flex; flex-direction: column; gap: 16px; }
+    .map-address-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .copy-btn {
+      padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--surface-hover); color: var(--text); font-size: 13px;
+      font-weight: 500; cursor: pointer; font-family: inherit; transition: background 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .copy-btn:hover { background: var(--border); }
+    .map-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--accent); font-weight: 600; font-size: 14px; text-decoration: none;
+      padding: 12px 18px; border-radius: 10px; background: var(--surface-hover); width: fit-content;
+    }
+    .map-link:hover { background: var(--border); }
+
+    .day-block { margin-bottom: 20px; }
+    .day-block:last-child { margin-bottom: 0; }
+    .day-heading {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+    }
+    .day-chip {
+      font-size: 13px; font-weight: 700; color: white; background: var(--accent);
+      padding: 5px 14px; border-radius: 999px;
+    }
+    .day-heading .day-label { font-size: 15px; font-weight: 600; color: var(--text-secondary); }
+    .itinerary-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .itinerary-table th {
+      text-align: left; padding: 10px 14px; background: var(--surface-hover);
+      color: var(--text-secondary); font-weight: 600; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .itinerary-table th:first-child { border-radius: 8px 0 0 8px; }
+    .itinerary-table th:last-child { border-radius: 0 8px 8px 0; }
+    .itinerary-table td {
+      padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top;
+    }
+    .itinerary-table tr:last-child td { border-bottom: none; }
+    .itinerary-table .time-cell { color: var(--text-secondary); white-space: nowrap; font-weight: 500; width: 110px; }
+    .itinerary-table .note-cell { color: var(--text-secondary); font-size: 13px; white-space: nowrap; }
+    .itinerary-table .program-cell { font-weight: 500; }
+    .places-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+    .place-item {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; font-size: 13px;
+    }
+    .place-item .place-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .place-item .place-addr { color: var(--text-secondary); }
+
+    footer { text-align: center; padding-top: 32px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10000;padding:8px 16px;background:var(--accent);color:white;text-decoration:none;border-radius:4px;" onfocus="this.style.cssText='position:fixed;left:16px;top:16px;z-index:10000;padding:8px 16px;background:var(--accent);color:white;text-decoration:none;border-radius:4px;'" onblur="this.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;'">본문 바로가기</a>
+
+  <div class="viz-menu">
+    <button class="viz-menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+      </svg>
+    </button>
+    <div class="viz-menu-dropdown" id="vizMenuDropdown">
+      <button onclick="cycleTheme()"><span id="themeIcon">🌙</span><span id="themeLabel">다크</span></button>
+      <button onclick="downloadImage()"><span>📥</span><span>PNG 다운로드</span></button>
+      <button onclick="window.print()"><span>🖨️</span><span>인쇄 / PDF</span></button>
+    </div>
+  </div>
+
+  <a href="#main-content" class="skip-to-content">본문 바로가기</a>
+
+  <main id="main-content" role="main">
+    <div class="container">
+
+      <header class="hero">
+        <div class="dday-badge" id="ddayBadge">행사일 계산 중…</div>
+        <h1 class="animate">2026년 정기 행사 (MT)</h1>
+        <p class="subtitle animate delay-1">충북 청주시 상당구 미원면 · 달천펜션</p>
+      </header>
+
+      <section aria-labelledby="overview-title" class="animate delay-2">
+        <p class="section-label">개요</p>
+        <h2 class="section-title" id="overview-title">행사 정보</h2>
+        <div class="info-grid">
+          <div class="card info-card">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span class="label">일시</span>
+            <span class="value">2026.06.20(토) ~ 06.21(일)</span>
+            <span class="sub">1박 2일</span>
+          </div>
+          <div class="card info-card">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 22V12h6v10"/><path d="M3 9.5 12 2l9 7.5"/></svg>
+            </div>
+            <span class="label">숙소</span>
+            <span class="value">달천펜션</span>
+            <span class="sub">충북 청주시 상당구 미원면 운암옥화길 189 (운암리 30-2)</span>
+          </div>
+          <div class="card info-card">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="label">총 인원</span>
+            <span class="value"><span data-count="24">0</span>명 (참가 대상)</span>
+            <span class="sub">참석 + 당일 + 잠시인사 + 불참</span>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card"><div class="num accent" data-count="9">0</div><div class="lbl">참석 (1박2일)</div></div>
+          <div class="stat-card"><div class="num" data-count="6">0</div><div class="lbl">당일 참석</div></div>
+          <div class="stat-card"><div class="num" data-count="2">0</div><div class="lbl">잠시인사</div></div>
+          <div class="stat-card"><div class="num" data-count="7">0</div><div class="lbl">불참</div></div>
+          <div class="stat-card"><div class="num" data-count="17">0</div><div class="lbl">실 참가 인원</div></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="people-title" data-reveal>
+        <p class="section-label">참가자 현황</p>
+        <h2 class="section-title" id="people-title">명단</h2>
+
+        <div class="filter-bar" role="group" aria-label="참가 상태 필터">
+          <button class="filter-btn active" data-filter="all" onclick="filterPeople('all', this)">전체 24</button>
+          <button class="filter-btn" data-filter="attend" onclick="filterPeople('attend', this)">참석 9</button>
+          <button class="filter-btn" data-filter="day" onclick="filterPeople('day', this)">당일 6</button>
+          <button class="filter-btn" data-filter="visit" onclick="filterPeople('visit', this)">잠시인사 2</button>
+          <button class="filter-btn" data-filter="absent" onclick="filterPeople('absent', this)">불참 7</button>
+        </div>
+
+        <div class="person-grid" id="personGrid">
+          <!-- 참석 (1박2일) -->
+          <div class="person" data-status="attend"><div class="avatar">선생</div><div><div class="name">선생님</div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">정윤</div><div><div class="name">정윤환</div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">이진</div><div><div class="name">이진협</div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">강영</div><div><div class="name">강영구</div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">김훈</div><div><div class="name">김훈성</div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">장현</div><div><div class="name">장현섭</div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">이경</div><div><div class="name">이경욱 <span class="family-tag">가족동반</span></div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">이정</div><div><div class="name">이정원 <span class="family-tag">가족동반</span></div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <div class="person" data-status="attend"><div class="avatar">강정</div><div><div class="name">강정구 <span class="family-tag">가족동반</span></div><div class="status-tag">참석 · 1박2일</div></div></div>
+          <!-- 당일 -->
+          <div class="person" data-status="day"><div class="avatar">최병</div><div><div class="name">최병훈</div><div class="status-tag">당일 참석</div></div></div>
+          <div class="person" data-status="day"><div class="avatar">김태</div><div><div class="name">김태연</div><div class="status-tag">당일 참석</div></div></div>
+          <div class="person" data-status="day"><div class="avatar">권성</div><div><div class="name">권성욱 <span class="family-tag">가족동반</span></div><div class="status-tag">당일 참석</div></div></div>
+          <div class="person" data-status="day"><div class="avatar">이소</div><div><div class="name">이소윤 <span class="family-tag">가족동반</span></div><div class="status-tag">당일 참석</div></div></div>
+          <div class="person" data-status="day"><div class="avatar">문홍</div><div><div class="name">문홍준</div><div class="status-tag">당일 참석</div></div></div>
+          <div class="person" data-status="day"><div class="avatar">최은</div><div><div class="name">최은소</div><div class="status-tag">당일 참석</div></div></div>
+          <!-- 잠시인사 (가족 동반 방문) -->
+          <div class="person" data-status="visit"><div class="avatar">이주</div><div><div class="name">이주란 <span class="family-tag">가족동반</span></div><div class="status-tag">잠시인사 방문</div></div></div>
+          <div class="person" data-status="visit"><div class="avatar">강지</div><div><div class="name">강지윤 <span class="family-tag">가족동반</span></div><div class="status-tag">잠시인사 방문</div></div></div>
+          <!-- 불참 -->
+          <div class="person" data-status="absent"><div class="avatar">이대</div><div><div class="name">이대우</div><div class="status-tag">불참</div></div></div>
+          <div class="person" data-status="absent"><div class="avatar">김일</div><div><div class="name">김일윤</div><div class="status-tag">불참</div></div></div>
+          <div class="person" data-status="absent"><div class="avatar">최교</div><div><div class="name">최교훈</div><div class="status-tag">불참</div></div></div>
+          <div class="person" data-status="absent"><div class="avatar">이상</div><div><div class="name">이상준</div><div class="status-tag">불참</div></div></div>
+          <div class="person" data-status="absent"><div class="avatar">권정</div><div><div class="name">권정현</div><div class="status-tag">불참</div></div></div>
+          <div class="person" data-status="absent"><div class="avatar">이경륜</div><div><div class="name">이경륜</div><div class="status-tag">불참</div></div></div>
+          <div class="person" data-status="absent"><div class="avatar">김예</div><div><div class="name">김예원</div><div class="status-tag">불참</div></div></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="itinerary-title" data-reveal>
+        <p class="section-label">일정표</p>
+        <h2 class="section-title" id="itinerary-title">쌤과 함께 20일(토) ~ 21일(일)</h2>
+
+        <div class="card">
+          <div class="day-block">
+            <div class="day-heading"><span class="day-chip">6/20 (토)</span></div>
+            <table class="itinerary-table">
+              <thead><tr><th>시간</th><th>일정 (장소/내용)</th><th>비고</th></tr></thead>
+              <tbody>
+                <tr><td class="time-cell">09:00 ~</td><td class="program-cell">진광디자인 집합</td><td class="note-cell">출발</td></tr>
+                <tr><td class="time-cell">11:00 ~ 12:00</td><td class="program-cell">국립청주박물관 관람</td><td class="note-cell">문화탐방</td></tr>
+                <tr><td class="time-cell">12:30 ~ 14:30</td><td class="program-cell">점심 식사 &amp; 커피</td><td class="note-cell">온기만두전골 명암타워점 + 카페레오나</td></tr>
+                <tr><td class="time-cell">15:00 ~</td><td class="program-cell">숙소 체크인</td><td class="note-cell">&nbsp;</td></tr>
+                <tr><td class="time-cell">15:00 ~ 16:30</td><td class="program-cell">자유 시간</td><td class="note-cell">휴식</td></tr>
+                <tr><td class="time-cell">16:30 ~</td><td class="program-cell">장보기</td><td class="note-cell">저녁거리</td></tr>
+                <tr><td class="time-cell">18:30 ~</td><td class="program-cell">바베큐 파티</td><td class="note-cell">&nbsp;</td></tr>
+                <tr><td class="time-cell">&nbsp;</td><td class="program-cell text-secondary">취침은 자유롭게</td><td class="note-cell">&nbsp;</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="day-block">
+            <div class="day-heading"><span class="day-chip">6/21 (일)</span></div>
+            <table class="itinerary-table">
+              <thead><tr><th>시간</th><th>일정 (장소/내용)</th><th>비고</th></tr></thead>
+              <tbody>
+                <tr><td class="time-cell">08:00 ~ 09:00</td><td class="program-cell">기상 및 준비</td><td class="note-cell">&nbsp;</td></tr>
+                <tr><td class="time-cell">10:00 ~</td><td class="program-cell">숙소 체크아웃</td><td class="note-cell">&nbsp;</td></tr>
+                <tr><td class="time-cell">11:00 ~ 12:00</td><td class="program-cell">문화탐방</td><td class="note-cell">옥화자연휴양림 (숙소 인근)</td></tr>
+                <tr><td class="time-cell">12:30 ~</td><td class="program-cell">점심 식사</td><td class="note-cell">숙소에서 간단히</td></tr>
+                <tr><td class="time-cell">13:30 ~</td><td class="program-cell">일상화카페</td><td class="note-cell">빵 &amp; 커피</td></tr>
+                <tr><td class="time-cell">14:30 ~</td><td class="program-cell">해산</td><td class="note-cell">다음에 만나요!</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="food-title" data-reveal>
+        <p class="section-label">확정 식당 &amp; 카페</p>
+        <h2 class="section-title" id="food-title">동선별 식사 장소</h2>
+
+        <div class="day-block">
+          <div class="day-heading"><span class="day-chip">6/20 (토) · 박물관 → 숙소 동선</span></div>
+          <div class="places-grid">
+            <div class="place-item">
+              <div class="place-name">온기만두전골 명암타워점</div>
+              <div class="place-addr">충북 청주시 상당구 명암로 32 202호 · 점심 식사</div>
+            </div>
+            <div class="place-item">
+              <div class="place-name">카페레오나</div>
+              <div class="place-addr">충북 청주시 상당구 낭성면 산성로 1570 · 커피 한 잔</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-heading"><span class="day-chip">6/21 (일) · 숙소 근처</span></div>
+          <div class="places-grid">
+            <div class="place-item">
+              <div class="place-name">옥화자연휴양림</div>
+              <div class="place-addr">미원면 운암옥화길 140 · 숙소에서 가장 가까운 문화탐방지, 옥화구곡 산책</div>
+            </div>
+            <div class="place-item">
+              <div class="place-name">숙소 (달천펜션)</div>
+              <div class="place-addr">점심은 숙소에서 간단히 해결</div>
+            </div>
+            <div class="place-item">
+              <div class="place-name">일상화카페</div>
+              <div class="place-addr">충북 보은군 산외면 성암가고로 235-6 · 빵 &amp; 커피</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="map-title" data-reveal>
+        <p class="section-label">오시는 길</p>
+        <h2 class="section-title" id="map-title">숙소 위치</h2>
+        <div class="card map-card">
+          <div class="map-address-row">
+            <div>
+              <div style="font-weight:700; font-size:1.1rem; margin-bottom:4px;">달천펜션</div>
+              <div class="text-secondary" id="addressText">충북 청주시 상당구 미원면 운암옥화길 189 (운암리 30-2)</div>
+            </div>
+            <button class="copy-btn" onclick="copyAddress()" id="copyBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              주소 복사
+            </button>
+          </div>
+          <a class="map-link" id="mapLink" href="#" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            지도에서 보기
+          </a>
+        </div>
+
+        <div class="places-grid">
+          <div class="place-item">
+            <div class="place-name">진광디자인 (집합 장소)</div>
+            <div class="place-addr">금호동 795 진광고디자인연구소 1층</div>
+          </div>
+          <div class="place-item">
+            <div class="place-name">국립청주박물관</div>
+            <div class="place-addr">충북 청주시 청원구 상당로 314</div>
+          </div>
+          <div class="place-item">
+            <div class="place-name">하나로 마트 (장보기)</div>
+            <div class="place-addr">미원리 428-19</div>
+          </div>
+          <div class="place-item">
+            <div class="place-name">달천펜션 (숙소)</div>
+            <div class="place-addr">충북 청주시 상당구 미원면 운암리 30-2</div>
+          </div>
+          <div class="place-item">
+            <div class="place-name">온기만두전골 명암타워점 (점심, 6/20)</div>
+            <div class="place-addr">충북 청주시 상당구 명암로 32 202호</div>
+          </div>
+          <div class="place-item">
+            <div class="place-name">카페레오나 (커피, 6/20)</div>
+            <div class="place-addr">충북 청주시 상당구 낭성면 산성로 1570</div>
+          </div>
+          <div class="place-item">
+            <div class="place-name">일상화카페 (빵·커피, 6/21)</div>
+            <div class="place-addr">충북 보은군 산외면 성암가고로 235-6</div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        작성: 강정구 · 2026년 정기 행사(MT) 안내
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    // === Menu ===
+    function toggleMenu() {
+      var dropdown = document.getElementById('vizMenuDropdown');
+      if (dropdown) dropdown.classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.viz-menu')) {
+        var dropdown = document.getElementById('vizMenuDropdown');
+        if (dropdown) dropdown.classList.remove('open');
+      }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var dropdown = document.getElementById('vizMenuDropdown');
+        if (dropdown) dropdown.classList.remove('open');
+      }
+    });
+
+    // === Theme ===
+    var savedTheme = localStorage.getItem('viz-theme');
+    var currentTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    function applyTheme(t) {
+      document.documentElement.className = 'theme-' + t;
+      document.getElementById('themeIcon').textContent = t === 'dark' ? '🌙' : '☀️';
+      document.getElementById('themeLabel').textContent = t === 'dark' ? '다크' : '라이트';
+      localStorage.setItem('viz-theme', t);
+      currentTheme = t;
+      if (typeof onThemeChange === 'function') onThemeChange();
+    }
+    function cycleTheme() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
+    applyTheme(currentTheme);
+
+    // === Scroll Reveal ===
+    document.querySelectorAll('[data-reveal]').forEach(function(el) { el.classList.add('reveal'); });
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+
+    // === Number Counter ===
+    function animateCounters() {
+      document.querySelectorAll('[data-count]').forEach(function(el) {
+        if (el.dataset.counted) return;
+        el.dataset.counted = '1';
+        var target = parseFloat(el.dataset.count), prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
+        var start = performance.now(), duration = 1200;
+        (function tick(now) {
+          var p = Math.min((now - start) / duration, 1), eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = prefix + Math.round(target * eased).toLocaleString() + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        })(start);
+      });
+    }
+    var counterEl = document.querySelector('[data-count]');
+    if (counterEl) {
+      var cObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) { animateCounters(); cObs.disconnect(); } });
+      }, { threshold: 0.3 });
+      cObs.observe(counterEl);
+    }
+
+    // === Download PNG ===
+    async function downloadImage() {
+      var menu = document.querySelector('.viz-menu');
+      menu.style.display = 'none';
+      try {
+        var url = await htmlToImage.toPng(document.body, { quality: 1, pixelRatio: 2, filter: function(n) { return !n.classList || !n.classList.contains('viz-menu'); } });
+        var a = document.createElement('a'); a.href = url;
+        a.download = '2026-mt-plan.png'; a.click();
+      } catch(e) { console.error('Download failed:', e); }
+      menu.style.display = '';
+    }
+
+    // === D-day badge ===
+    function updateDday() {
+      var start = new Date(2026, 5, 20, 0, 0, 0);
+      var end = new Date(2026, 5, 22, 0, 0, 0);
+      var now = new Date();
+      var badge = document.getElementById('ddayBadge');
+      var diffDays = Math.ceil((start - now) / 86400000);
+      if (now >= start && now < end) {
+        badge.textContent = '행사 진행 중';
+      } else if (diffDays > 0) {
+        badge.textContent = 'D-' + diffDays + ' · 06.20(토)~21(일)';
+      } else {
+        badge.textContent = '행사 종료';
+      }
+    }
+    updateDday();
+
+    // === Filter people ===
+    function filterPeople(status, btn) {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.person').forEach(function(p) {
+        if (status === 'all' || p.dataset.status === status) {
+          p.style.display = 'flex';
+        } else {
+          p.style.display = 'none';
+        }
+      });
+    }
+
+    // === Map link + copy address ===
+    var address = '충북 청주시 상당구 미원면 운암옥화길 189 (운암리 30-2)';
+    document.getElementById('mapLink').href = 'https://map.naver.com/p/search/' + encodeURIComponent(address);
+    function copyAddress() {
+      navigator.clipboard.writeText(address).then(function() {
+        var btn = document.getElementById('copyBtn');
+        var original = btn.innerHTML;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 복사됨';
+        setTimeout(function() { btn.innerHTML = original; }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>
