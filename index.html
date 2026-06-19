@@ -236,7 +236,8 @@
       padding: 5px 14px; border-radius: 999px;
     }
     .day-heading .day-label { font-size: 15px; font-weight: 600; color: var(--text-secondary); }
-    .itinerary-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .itinerary-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -2px; }
+    .itinerary-table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
     .itinerary-table th {
       text-align: left; padding: 10px 14px; background: var(--surface-hover);
       color: var(--text-secondary); font-weight: 600; font-size: 12px;
@@ -248,9 +249,16 @@
       padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top;
     }
     .itinerary-table tr:last-child td { border-bottom: none; }
-    .itinerary-table .time-cell { color: var(--text-secondary); white-space: nowrap; font-weight: 500; width: 110px; }
-    .itinerary-table .note-cell { color: var(--text-secondary); font-size: 13px; white-space: nowrap; }
-    .itinerary-table .program-cell { font-weight: 500; }
+    .itinerary-table .time-cell { color: var(--text-secondary); white-space: nowrap; font-weight: 500; width: 86px; }
+    .itinerary-table .note-cell { color: var(--text-secondary); font-size: 13px; white-space: normal; word-break: keep-all; }
+    .itinerary-table .program-cell { font-weight: 500; white-space: normal; word-break: keep-all; }
+    @media (max-width: 480px) {
+      .itinerary-table { font-size: 12.5px; }
+      .itinerary-table .time-cell { width: 64px; }
+      .itinerary-table th, .itinerary-table td { padding: 8px 6px; }
+      .itinerary-table .note-cell { font-size: 11.5px; }
+      .places-grid { grid-template-columns: 1fr; }
+    }
     .places-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
     .place-item {
       background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
@@ -258,6 +266,10 @@
     }
     .place-item .place-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
     .place-item .place-addr { color: var(--text-secondary); }
+    .place-item.copyable { cursor: pointer; transition: background .15s, border-color .15s; }
+    .place-item.copyable:hover { background: var(--surface-hover); border-color: var(--accent); }
+    .place-item.copyable .copy-hint { display: none; font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+    .place-item.copyable.copied .copy-hint { display: block; }
 
     footer { text-align: center; padding-top: 32px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
   </style>
@@ -379,7 +391,7 @@
         <div class="card">
           <div class="day-block">
             <div class="day-heading"><span class="day-chip">6/20 (토)</span></div>
-            <table class="itinerary-table">
+            <div class="itinerary-table-wrap"><table class="itinerary-table">
               <thead><tr><th>시간</th><th>일정 (장소/내용)</th><th>비고</th></tr></thead>
               <tbody>
                 <tr><td class="time-cell">09:00 ~</td><td class="program-cell">진광디자인 집합</td><td class="note-cell">출발</td></tr>
@@ -391,12 +403,12 @@
                 <tr><td class="time-cell">18:30 ~</td><td class="program-cell">바베큐 파티</td><td class="note-cell">&nbsp;</td></tr>
                 <tr><td class="time-cell">&nbsp;</td><td class="program-cell text-secondary">취침은 자유롭게</td><td class="note-cell">&nbsp;</td></tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           <div class="day-block">
             <div class="day-heading"><span class="day-chip">6/21 (일)</span></div>
-            <table class="itinerary-table">
+            <div class="itinerary-table-wrap"><table class="itinerary-table">
               <thead><tr><th>시간</th><th>일정 (장소/내용)</th><th>비고</th></tr></thead>
               <tbody>
                 <tr><td class="time-cell">08:00 ~ 09:00</td><td class="program-cell">기상 및 준비</td><td class="note-cell">&nbsp;</td></tr>
@@ -406,7 +418,7 @@
                 <tr><td class="time-cell">13:00 ~</td><td class="program-cell">일상화카페</td><td class="note-cell">빵 &amp; 커피</td></tr>
                 <tr><td class="time-cell">14:00 ~</td><td class="program-cell">해산</td><td class="note-cell">다음에 만나요!</td></tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
       </section>
@@ -469,33 +481,40 @@
         </div>
 
         <div class="places-grid">
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">진광디자인 (집합 장소)</div>
             <div class="place-addr">금호동 795 진광고디자인연구소 1층</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">국립청주박물관</div>
             <div class="place-addr">충북 청주시 청원구 상당로 314</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">하나로 마트 (장보기)</div>
             <div class="place-addr">미원리 428-19</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">달천펜션 (숙소)</div>
             <div class="place-addr">충북 청주시 상당구 미원면 운암리 30-2</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">온기만두전골 명암타워점 (점심, 6/20)</div>
             <div class="place-addr">충북 청주시 상당구 명암로 32 202호</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">카페레오나 (커피, 6/20)</div>
             <div class="place-addr">충북 청주시 상당구 낭성면 산성로 1570</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
-          <div class="place-item">
+          <div class="place-item copyable" onclick="copyPlace(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyPlace(this)">
             <div class="place-name">일상화카페 (빵·커피, 6/21)</div>
             <div class="place-addr">충북 보은군 산외면 성암가고로 235-6</div>
+            <div class="copy-hint">주소 복사됨!</div>
           </div>
         </div>
       </section>
@@ -620,6 +639,14 @@
         var original = btn.innerHTML;
         btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 복사됨';
         setTimeout(function() { btn.innerHTML = original; }, 1800);
+      });
+    }
+
+    function copyPlace(el) {
+      var addr = el.querySelector('.place-addr').textContent;
+      navigator.clipboard.writeText(addr).then(function() {
+        el.classList.add('copied');
+        setTimeout(function() { el.classList.remove('copied'); }, 1500);
       });
     }
   </script>
