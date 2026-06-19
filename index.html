@@ -252,11 +252,24 @@
     .itinerary-table .time-cell { color: var(--text-secondary); white-space: nowrap; font-weight: 500; width: 86px; }
     .itinerary-table .note-cell { color: var(--text-secondary); font-size: 13px; white-space: normal; word-break: keep-all; }
     .itinerary-table .program-cell { font-weight: 500; white-space: normal; word-break: keep-all; }
-    @media (max-width: 480px) {
-      .itinerary-table { font-size: 12.5px; }
-      .itinerary-table .time-cell { width: 64px; }
-      .itinerary-table th, .itinerary-table td { padding: 8px 6px; }
-      .itinerary-table .note-cell { font-size: 11.5px; }
+    @media (max-width: 600px) {
+      .itinerary-table-wrap { overflow-x: visible; }
+      .itinerary-table { table-layout: auto; }
+      .itinerary-table thead { display: none; }
+      .itinerary-table, .itinerary-table tbody, .itinerary-table tr, .itinerary-table td { display: block; width: auto; }
+      .itinerary-table tr {
+        border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; background: var(--surface);
+      }
+      .itinerary-table tr:last-child { margin-bottom: 0; }
+      .itinerary-table td {
+        border-bottom: none; padding: 4px 0; display: flex; gap: 10px; align-items: baseline;
+      }
+      .itinerary-table td::before {
+        content: attr(data-label); flex: 0 0 44px; font-size: 11px; font-weight: 700;
+        color: var(--accent); text-transform: uppercase;
+      }
+      .itinerary-table .time-cell { width: auto; }
+      .itinerary-table .note-cell, .itinerary-table .program-cell { white-space: normal; word-break: keep-all; overflow-wrap: break-word; }
       .places-grid { grid-template-columns: 1fr; }
     }
     .places-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
@@ -394,14 +407,14 @@
             <div class="itinerary-table-wrap"><table class="itinerary-table">
               <thead><tr><th>시간</th><th>일정 (장소/내용)</th><th>비고</th></tr></thead>
               <tbody>
-                <tr><td class="time-cell">09:00 ~</td><td class="program-cell">진광디자인 집합</td><td class="note-cell">출발</td></tr>
-                <tr><td class="time-cell">11:00 ~ 12:00</td><td class="program-cell">국립청주박물관 관람</td><td class="note-cell">문화탐방</td></tr>
-                <tr><td class="time-cell">12:30 ~ 14:30</td><td class="program-cell">점심 식사 &amp; 커피</td><td class="note-cell">온기만두전골 명암타워점 + 카페레오나</td></tr>
-                <tr><td class="time-cell">15:00 ~</td><td class="program-cell">숙소 체크인</td><td class="note-cell">&nbsp;</td></tr>
-                <tr><td class="time-cell">15:00 ~ 16:30</td><td class="program-cell">자유 시간</td><td class="note-cell">휴식</td></tr>
-                <tr><td class="time-cell">16:30 ~</td><td class="program-cell">장보기</td><td class="note-cell">저녁거리</td></tr>
-                <tr><td class="time-cell">18:30 ~</td><td class="program-cell">바베큐 파티</td><td class="note-cell">&nbsp;</td></tr>
-                <tr><td class="time-cell">&nbsp;</td><td class="program-cell text-secondary">취침은 자유롭게</td><td class="note-cell">&nbsp;</td></tr>
+                <tr><td class="time-cell" data-label="시간">09:00 ~</td><td class="program-cell" data-label="일정">진광디자인 집합</td><td class="note-cell" data-label="비고">출발</td></tr>
+                <tr><td class="time-cell" data-label="시간">11:00 ~ 12:00</td><td class="program-cell" data-label="일정">국립청주박물관 관람</td><td class="note-cell" data-label="비고">문화탐방</td></tr>
+                <tr><td class="time-cell" data-label="시간">12:30 ~ 14:30</td><td class="program-cell" data-label="일정">점심 식사 &amp; 커피</td><td class="note-cell" data-label="비고">온기만두전골 명암타워점 + 카페레오나</td></tr>
+                <tr><td class="time-cell" data-label="시간">15:00 ~</td><td class="program-cell" data-label="일정">숙소 체크인</td><td class="note-cell" data-label="비고">&nbsp;</td></tr>
+                <tr><td class="time-cell" data-label="시간">15:00 ~ 16:30</td><td class="program-cell" data-label="일정">자유 시간</td><td class="note-cell" data-label="비고">휴식</td></tr>
+                <tr><td class="time-cell" data-label="시간">16:30 ~</td><td class="program-cell" data-label="일정">장보기</td><td class="note-cell" data-label="비고">저녁거리</td></tr>
+                <tr><td class="time-cell" data-label="시간">18:30 ~</td><td class="program-cell" data-label="일정">바베큐 파티</td><td class="note-cell" data-label="비고">&nbsp;</td></tr>
+                <tr><td class="time-cell" data-label="시간">&nbsp;</td><td class="program-cell text-secondary" data-label="일정">취침은 자유롭게</td><td class="note-cell" data-label="비고">&nbsp;</td></tr>
               </tbody>
             </table></div>
           </div>
@@ -411,12 +424,12 @@
             <div class="itinerary-table-wrap"><table class="itinerary-table">
               <thead><tr><th>시간</th><th>일정 (장소/내용)</th><th>비고</th></tr></thead>
               <tbody>
-                <tr><td class="time-cell">08:00 ~ 09:00</td><td class="program-cell">기상 및 준비</td><td class="note-cell">&nbsp;</td></tr>
-                <tr><td class="time-cell">09:00 ~ 10:30</td><td class="program-cell">아점</td><td class="note-cell">숙소에서 간단히 (전날 고기 &amp; 라면, 햇반)</td></tr>
-                <tr><td class="time-cell">11:00 ~</td><td class="program-cell">숙소 체크아웃</td><td class="note-cell">&nbsp;</td></tr>
-                <tr><td class="time-cell">11:30 ~ 12:30</td><td class="program-cell">문화탐방</td><td class="note-cell">옥화자연휴양림 (숙소 인근)</td></tr>
-                <tr><td class="time-cell">13:00 ~</td><td class="program-cell">일상화카페</td><td class="note-cell">빵 &amp; 커피</td></tr>
-                <tr><td class="time-cell">14:00 ~</td><td class="program-cell">해산</td><td class="note-cell">다음에 만나요!</td></tr>
+                <tr><td class="time-cell" data-label="시간">08:00 ~ 09:00</td><td class="program-cell" data-label="일정">기상 및 준비</td><td class="note-cell" data-label="비고">&nbsp;</td></tr>
+                <tr><td class="time-cell" data-label="시간">09:00 ~ 10:30</td><td class="program-cell" data-label="일정">아점</td><td class="note-cell" data-label="비고">숙소에서 간단히 (전날 고기 &amp; 라면, 햇반)</td></tr>
+                <tr><td class="time-cell" data-label="시간">11:00 ~</td><td class="program-cell" data-label="일정">숙소 체크아웃</td><td class="note-cell" data-label="비고">&nbsp;</td></tr>
+                <tr><td class="time-cell" data-label="시간">11:30 ~ 12:30</td><td class="program-cell" data-label="일정">문화탐방</td><td class="note-cell" data-label="비고">옥화자연휴양림 (숙소 인근)</td></tr>
+                <tr><td class="time-cell" data-label="시간">13:00 ~</td><td class="program-cell" data-label="일정">일상화카페</td><td class="note-cell" data-label="비고">빵 &amp; 커피</td></tr>
+                <tr><td class="time-cell" data-label="시간">14:00 ~</td><td class="program-cell" data-label="일정">해산</td><td class="note-cell" data-label="비고">다음에 만나요!</td></tr>
               </tbody>
             </table></div>
           </div>
